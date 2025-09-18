@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback Request Form</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f3f4f6;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 640px;
+            margin: auto;
+        }
+
+        form,
+        .thank-you {
+            background: white;
+            padding: 35px 40px;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: 600;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            margin-top: 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #f8fafc;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: #ffffff;
+        }
+
+        input[readonly] {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #3b82f6;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.25s;
+        }
+
+        button:hover {
+            background: #2563eb;
+        }
+
+        .thank-you {
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        .thank-you h2 {
+            color: #16a34a;
+            margin-bottom: 10px;
+        }
+
+        .thank-you p {
+            color: #475569;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form id="feedbackForm">
+            <h2>Feedback Request Form</h2>
+
+            <!-- Feedback Provider -->
+            <label for="provider">Feedback Provider</label>
+            <select id="provider" name="provider" required>
+                <option value="">-- Select --</option>
+                <option value="Fernando Varela">Fernando Varela</option>
+                <option value="Jessica Wright">Jessica Wright</option>
+                <option value="David Chen">David Chen</option>
+                <option value="Amanda Singh">Amanda Singh</option>
+            </select>
+
+            <label for="providerEmail">Email</label>
+            <input type="email" id="providerEmail" name="providerEmail" readonly />
+
+            <label for="providerDept">Department</label>
+            <input type="text" id="providerDept" name="providerDept" readonly />
+
+            <!-- Feedback Receiver -->
+            <label for="receiver">Feedback Receiver</label>
+            <select id="receiver" name="receiver" required>
+                <option value="">-- Select --</option>
+                <option value="Sarah Apple">Sarah Apple</option>
+                <option value="Michael Brown">Michael Brown</option>
+                <option value="Olivia Lee">Olivia Lee</option>
+                <option value="James Patel">James Patel</option>
+            </select>
+
+            <label for="receiverEmail">Email</label>
+            <input type="email" id="receiverEmail" name="receiverEmail" readonly />
+
+            <label for="receiverDept">Department</label>
+            <input type="text" id="receiverDept" name="receiverDept" readonly />
+
+            <!-- Due Date -->
+            <label for="dueDate">Due Date</label>
+            <input type="date" id="dueDate" name="dueDate" required />
+
+            <!-- Review Template -->
+            <label for="reviewTemplate">Review Template</label>
+            <select id="reviewTemplate" name="reviewTemplate" required>
+                <option value="">-- Select Template --</option>
+                <option value="Peer Performance Review">Peer Performance Review</option>
+                <option value="Investment Banking">Investment Banking</option>
+            </select>
+
+            <button type="submit">Submit Feedback Request</button>
+        </form>
+
+        <!-- Thank You Screen -->
+        <div class="thank-you" id="thankYou">
+            <h2>✅ Thank You!</h2>
+            <p>Your feedback request has been submitted successfully.<br>
+                We appreciate your input and will process it shortly.</p>
+        </div>
+    </div>
+
+    <script>
+        const providerData = {
+            "Fernando Varela": { email: "fvarela@audax.com", dept: "HR" },
+            "Jessica Wright": { email: "jwright@audax.com", dept: "Marketing" },
+            "David Chen": { email: "dchen@audax.com", dept: "Finance" },
+            "Amanda Singh": { email: "asingh@audax.com", dept: "Legal" }
+        };
+
+        const receiverData = {
+            "Sarah Apple": { email: "sapple@audax.com", dept: "Investment Banking" },
+            "Michael Brown": { email: "mbrown@audax.com", dept: "Accounting" },
+            "Olivia Lee": { email: "olee@audax.com", dept: "Operations" },
+            "James Patel": { email: "jpatel@audax.com", dept: "Risk Management" }
+        };
+
+        const providerSelect = document.getElementById("provider");
+        const providerEmail = document.getElementById("providerEmail");
+        const providerDept = document.getElementById("providerDept");
+
+        const receiverSelect = document.getElementById("receiver");
+        const receiverEmail = document.getElementById("receiverEmail");
+        const receiverDept = document.getElementById("receiverDept");
+
+        providerSelect.addEventListener("change", () => {
+            const selected = providerSelect.value;
+            if (providerData[selected]) {
+                providerEmail.value = providerData[selected].email;
+                providerDept.value = providerData[selected].dept;
+            } else {
+                providerEmail.value = "";
+                providerDept.value = "";
+            }
+        });
+
+        receiverSelect.addEventListener("change", () => {
+            const selected = receiverSelect.value;
+            if (receiverData[selected]) {
+                receiverEmail.value = receiverData[selected].email;
+                receiverDept.value = receiverData[selected].dept;
+            } else {
+                receiverEmail.value = "";
+                receiverDept.value = "";
+            }
+        });
+
+        // Submit handler
+        const form = document.getElementById("feedbackForm");
+        const thankYou = document.getElementById("thankYou");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            form.style.display = "none";
+            thankYou.style.display = "block";
+        });
+    </script>
+</body>
+
+</html>
